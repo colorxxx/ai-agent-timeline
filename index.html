@@ -206,15 +206,6 @@ const rmBase = [
   { months:139,score:99.85,color:"#a855f7",date:"~2036" },
 ];
 
-// Superscript converter for Agent^N notation
-const sup = s => s.split('').map(c => {
-  const d = '0123456789'.indexOf(c);
-  if (d >= 0) return '⁰¹²³⁴⁵⁶⁷⁸⁹'[d];
-  if (c === '~') return '⁻';
-  if (c === '+') return '⁺';
-  return c;
-}).join('');
-
 const TOTAL=145, L=10, R=96, T=12, BOT=58, SMIN=35, SMAX=102;
 const gx=m=>L+(m/TOTAL)*(R-L);
 const gy=s=>BOT-((s-SMIN)/(SMAX-SMIN))*(BOT-T);
@@ -336,7 +327,7 @@ function App(){
             <line x1={cx} y1={cy} x2={cx} y2={BOT} stroke="#00d4ff" strokeWidth={0.12} strokeOpacity={0.3} strokeDasharray="0.4,0.4"/>
             <circle cx={cx} cy={cy} r={isH?0.9:0.55} fill={m.isSingularity?"#00d4ff":"#fff"} stroke="#00d4ff" strokeWidth={0.12} opacity={isH?1:0.85}/>
             {m.agents&&(()=>{
-              const txt=`Agent${sup(m.agents)}`;
+              const txt=`Agent^${m.agents}`;
               const tw=txt.length*0.65+1.5;
               const bx=cx+m.lx-tw/2;
               const by=ly-6;
@@ -355,7 +346,7 @@ function App(){
 
         {/* Realistic milestones */}
         {rm.map((m,idx)=>{const cx=gx(m.months),cy=gy(m.score),ly=idx%2===0?-4:4;
-          const atxt=`Agent${sup(m.agents)}`;
+          const atxt=`Agent^${m.agents}`;
           const atw=atxt.length*0.65+1.5;
           return(<g key={`rm${idx}`}>
             <line x1={cx} y1={cy} x2={cx} y2={BOT} stroke={m.color} strokeWidth={0.1} strokeOpacity={0.25} strokeDasharray="0.4,0.4"/>
