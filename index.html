@@ -88,7 +88,7 @@ const i = {
     est: "추정",
     descs: ["단순 질의응답", "단일 작업 보조", "에이전트 코파일럿", "⚡ Agent 특이점", "개인 작업 보조"],
     mDescs: ["개인작업 자동화", "팀 단위 자동화", "부서 자동화", "조직 자동화"],
-    mAgents: ["3~5", "10~20", "50~100", "수천"],
+    mAgents: ["3~5", "10~20", "50~100", "1000+"],
   },
   en: {
     title: "AI Agent Success Rate Timeline — 3 Scenarios",
@@ -158,7 +158,7 @@ const i = {
     est: "Est.",
     descs: ["Simple Q&A", "Single task assist", "Agent copilot", "⚡ Agent Singularity", "Personal assistant"],
     mDescs: ["Personal automation", "Team automation", "Dept. automation", "Org. automation"],
-    mAgents: ["3~5", "10~20", "50~100", "1000s"],
+    mAgents: ["3~5", "10~20", "50~100", "1000+"],
   },
 };
 
@@ -205,6 +205,15 @@ const rmBase = [
   { months:127,score:99.7,color:"#ef4444",date:"~2035" },
   { months:139,score:99.85,color:"#a855f7",date:"~2036" },
 ];
+
+// Superscript converter for Agent^N notation
+const sup = s => s.split('').map(c => {
+  const d = '0123456789'.indexOf(c);
+  if (d >= 0) return '⁰¹²³⁴⁵⁶⁷⁸⁹'[d];
+  if (c === '~') return '⁻';
+  if (c === '+') return '⁺';
+  return c;
+}).join('');
 
 const TOTAL=145, L=10, R=96, T=12, BOT=58, SMIN=35, SMAX=102;
 const gx=m=>L+(m/TOTAL)*(R-L);
@@ -327,7 +336,7 @@ function App(){
             <line x1={cx} y1={cy} x2={cx} y2={BOT} stroke="#00d4ff" strokeWidth={0.12} strokeOpacity={0.3} strokeDasharray="0.4,0.4"/>
             <circle cx={cx} cy={cy} r={isH?0.9:0.55} fill={m.isSingularity?"#00d4ff":"#fff"} stroke="#00d4ff" strokeWidth={0.12} opacity={isH?1:0.85}/>
             {m.agents&&(()=>{
-              const txt=`Agent ${m.agents}${lang==="kr"?"개":""}`;
+              const txt=`Agent${sup(m.agents)}`;
               const tw=txt.length*0.65+1.5;
               const bx=cx+m.lx-tw/2;
               const by=ly-6;
@@ -346,7 +355,7 @@ function App(){
 
         {/* Realistic milestones */}
         {rm.map((m,idx)=>{const cx=gx(m.months),cy=gy(m.score),ly=idx%2===0?-4:4;
-          const atxt=`Agent ${m.agents}${lang==="kr"?"개":""}`;
+          const atxt=`Agent${sup(m.agents)}`;
           const atw=atxt.length*0.65+1.5;
           return(<g key={`rm${idx}`}>
             <line x1={cx} y1={cy} x2={cx} y2={BOT} stroke={m.color} strokeWidth={0.1} strokeOpacity={0.25} strokeDasharray="0.4,0.4"/>
