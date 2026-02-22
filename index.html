@@ -22,8 +22,9 @@ const { useState } = React;
 const i = {
   kr: {
     title: "AI Agent 성공률 타임라인 — 3 Scenarios",
-    yLabel: "SWE-bench Verified (%)", xLabel: "Time (year)",
+    yLabel: "SWE-bench Verified Per Agent (%)", xLabel: "Time (year)",
     baseline: "기준선",
+    chartNote: ["AI 에이전트 하나의 성공률이 95%면,","4개를 엮었을 때 0.95⁴ = 81%로","실용 기준(80%)을 넘긴다 —","낙관적 전망의 경우, 그 시점이 2027년이다."],
     leg: { actual: "실측", realistic: "현실적", optimistic: "낙관", conservative: "보수", baseline: "80% 기준선" },
     scenLabels: ["낙관", "현실적", "보수"],
     scenarioTitle: "시나리오별 비교",
@@ -45,7 +46,7 @@ const i = {
     ],
     exFail: "❌ 여러 모듈에 걸친 복잡한 리팩토링, 아키텍처 설계 변경 등은 아직 실패 영역",
     yAxisNote: '💡 실무에서 컨텍스트를 주고 대화하며 쓰면 체감 성공률은 더 높음. SWE-bench는 "아무 맥락 없이 혼자" 기준이라 보수적.',
-    warning: '2026 이후 모든 곡선은 추정치. 각 추가 "9" (95→99→99.9%)에 ~10배 컴퓨트 필요.',
+    warning: '2026 이후 모든 곡선은 추정치입니다.',
     srcTitle: "📋 산정 근거 및 데이터 출처",
     expand: "▼ 펼치기", collapse: "▲ 접기",
     actTitle: "📊 실측 데이터",
@@ -80,7 +81,6 @@ const i = {
     cavTitle: "⚠️ 읽기 전 알아둘 것",
     cavs: [
       "2026 이후 모든 곡선은 **추정**이며 실제와 다를 수 있음",
-      "실무 성공률은 SWE-bench보다 **더 낮음** (벤치마크 ≠ 실전)",
       "낙관론자 = AI 기업 CEO (투자 유치 인센티브), 보수론자 = 학계 (과대예측 경계 인센티브)",
     ],
     cavBreak: "새로운 돌파가 나오면 곡선이 **급가속**할 수 있음. 반대로 스케일링 법칙이 꺾이면 **전 시나리오가 수년~수십년 지연**될 수 있음",
@@ -92,8 +92,9 @@ const i = {
   },
   en: {
     title: "AI Agent Success Rate Timeline — 3 Scenarios",
-    yLabel: "SWE-bench Verified (%)", xLabel: "Time (year)",
+    yLabel: "SWE-bench Verified Per Agent (%)", xLabel: "Time (year)",
     baseline: "Baseline",
+    chartNote: ["If a single AI agent has 95% success rate,","chaining 4 gives 0.95⁴ = 81%, clearing the","80% practical threshold — in the optimistic","scenario, that point is 2027."],
     leg: { actual: "Actual", realistic: "Realistic", optimistic: "Optimistic", conservative: "Conservative", baseline: "80% Baseline" },
     scenLabels: ["Opt.", "Realistic", "Cons."],
     scenarioTitle: "Scenario Comparison",
@@ -115,7 +116,7 @@ const i = {
     ],
     exFail: "❌ Complex multi-module refactoring, architecture redesign — still fails",
     yAxisNote: '💡 In practice, providing context and iterating in conversation yields higher success. SWE-bench measures "no hints, fully autonomous" — a conservative baseline.',
-    warning: 'All curves after 2026 are estimates. Each additional "9" (95→99→99.9%) requires ~10x more compute.',
+    warning: 'All curves after 2026 are estimates.',
     srcTitle: "📋 Methodology & Data Sources",
     expand: "▼ Expand", collapse: "▲ Collapse",
     actTitle: "📊 Measured Data",
@@ -150,7 +151,6 @@ const i = {
     cavTitle: "⚠️ Before Reading, Keep in Mind",
     cavs: [
       "All curves after 2026 are **estimates** and may differ from reality",
-      "Real-world success rates are **lower than SWE-bench** (benchmarks ≠ production)",
       "Optimists = AI company CEOs (fundraising incentive), Pessimists = academia (caution incentive)",
     ],
     cavBreak: "Breakthroughs could **dramatically accelerate** the curves. Conversely, if scaling laws break, **all scenarios could be delayed by years to decades**",
@@ -293,6 +293,12 @@ function App(){
           transform={`rotate(-90,2.5,${(T+BOT)/2})`} fillOpacity={0.5}>{_.yLabel}</text>
         <text x={(L+R)/2} y={BOT+5.5} fill="#00d4ff" fontSize="1.3" fontWeight="700" textAnchor="middle"
           fillOpacity={0.5}>{_.xLabel}</text>
+
+        {/* Chart explanation note */}
+        <text x={L+1} y={gy(98)} fill="#ffffff" fontSize="0.95" fillOpacity={0.55}>
+          {_.chartNote.map((line,idx)=>
+            <tspan key={idx} x={L+1} dy={idx===0?0:1.4}>{line}</tspan>)}
+        </text>
 
         {[40,50,60,70,80,90,95,99,100].map(v=>(
           <g key={v}>
