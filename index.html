@@ -295,9 +295,9 @@ function App(){
           fillOpacity={0.5}>{_.xLabel}</text>
 
         {/* Chart explanation note */}
-        <text x={L+1} y={gy(98)} fill="#ffffff" fontSize="0.95" fillOpacity={0.55}>
+        <text x={L+1} y={T+1.5} fill="#ffffff" fontSize="1.5" fontWeight="700" fillOpacity={0.92}>
           {_.chartNote.map((line,idx)=>
-            <tspan key={idx} x={L+1} dy={idx===0?0:1.4}>{line}</tspan>)}
+            <tspan key={idx} x={L+1} dy={idx===0?0:2}>{line}</tspan>)}
         </text>
 
         {[40,50,60,70,80,90,95,99,100].map(v=>(
